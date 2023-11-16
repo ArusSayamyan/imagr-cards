@@ -74,7 +74,6 @@ const changeFormStatus = (clickedEditBtn, cardIndex) => {
   selectedCardIndex.value = cardIndex
   if(clickedEditBtn) {
     selectedCardForEdit.value = cardData.value[cardIndex]
-    console.log(selectedCardForEdit.value)
   }
 };
 

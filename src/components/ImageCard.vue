@@ -18,7 +18,6 @@
 import {defineProps} from "vue";
 
 const props = defineProps(['firstName', 'lastName', 'imageSrc', 'date', 'dateOfEdited'])
-// const emit = defineEmits(['show-confirmModal'])
 
 </script>
 
@@ -29,7 +28,6 @@ const props = defineProps(['firstName', 'lastName', 'imageSrc', 'date', 'dateOfE
   padding: 15px;
   border: 1px solid #cccc;
   border-radius: 5px;
-  flex-basis: 18%;
   box-sizing: border-box;
 
   &__header {

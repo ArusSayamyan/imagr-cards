@@ -5,7 +5,8 @@
         <span class="cardForm__formTitle">Add new card</span>
         <img src="@/assets/close.svg" alt="" class="cardForm__close" @click="$emit('hide-form')">
       </div>
-      <input type="text" class="cardForm__input" placeholder="first name" v-model="firstName" >
+      <input type="text" class="cardForm__input" placeholder="first name" v-model="firstName">
+      <span class="cardForm__errorMessage" v-if="errorMessage">This field is required</span>
       <input type="text" class="cardForm__input" placeholder="last name" v-model="lastName">
       <input type="file" id="img" name="img" accept="image/*" @change="handleFileChange">
       <div class="cardForm__preview" v-if="preview">
@@ -13,7 +14,7 @@
       </div>
       <div class="cardForm__btns">
         <button class="cardForm__button" type="submit" v-if="addEditBtn">Edit</button>
-        <button class="cardForm__button" type="submit" v-else>Create</button>
+        <button class="cardForm__button" type="submit" v-else :disabled="isDisabled" :class="{'cardForm__button--disabled': isDisabled}">Create</button>
         <button class="cardForm__button" type="button" @click="$emit('hide-form')">Cancel</button>
       </div>
     </form>
@@ -22,7 +23,7 @@
 
 
 <script setup>
-import {defineProps, ref, onMounted, defineEmits} from 'vue';
+import {defineProps, ref, onMounted, defineEmits, computed} from 'vue';
 
 const props = defineProps(['editCard', 'selectedCardForEdit'])
 const emit = defineEmits(['data-emitted', 'hide-form', 'create-card', 'edit-card'])
@@ -32,6 +33,7 @@ const lastName = ref()
 const selectedImg = ref()
 const preview = ref()
 const addEditBtn = ref(false)
+const errorMessage = ref(false)
 
 let currentDate = new Date();
 
@@ -45,7 +47,14 @@ let currentMinutes = currentDate.getMinutes();
 const fullDate = day + '.' + month + '.' + year + " " + currentHours + ":" + currentMinutes
 
 
+const isDisabled = computed(() => {
+  return !firstName.value || !lastName.value || !preview.value
+})
+
 function sendData() {
+  if(!firstName.value) {
+    errorMessage.value = true
+  }
   if(props.selectedCardForEdit === undefined) {
     emit('create-card', ({
       firstName: firstName.value,
@@ -84,8 +93,6 @@ function handleFileChange(event) {
 
 
 onMounted(() => {
-  // console.log(props, 777777777777777)
-  // console.log(props)
   if(props.selectedCardForEdit !== undefined) {
     addEditBtn.value = true;
     firstName.value = props.selectedCardForEdit.firstName
@@ -135,7 +142,7 @@ onMounted(() => {
     justify-content: space-between;
     max-width: 150px;
     width: 100%;
-    margin: 0 auto;
+    margin: 15px auto 0;
   }
 
   &__header {
@@ -154,6 +161,12 @@ onMounted(() => {
     border: navajowhite;
     border-radius: 5px;
     cursor: pointer;
+
+    &--disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+
+    }
   }
 
   &__close {
@@ -170,5 +183,6 @@ onMounted(() => {
   &__preview {
     margin: 15px auto;
   }
+
 }
 </style>
