@@ -1,0 +1,22 @@
+.nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background: #2c3e50;
+
+  &__logo {
+    text-transform: uppercase;
+    font-weight: bolder;
+    color: #ffff;
+  }
+
+  &__addBtn {
+    padding: 5px;
+    border-radius: 5px;
+    background: none;
+    color: #ffff;
+    border: 1px solid #fff;
+    cursor: pointer;
+  }
+
+}

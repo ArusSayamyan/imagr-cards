@@ -1,48 +1,36 @@
 <template>
   <div class="container">
-    <nav class="nav">
-      <div class="nav__logoWrapper">
-        <span class="nav__logo">logo</span>
-      </div>
-      <div class="nav__buttonWrapper">
-        <button class="nav__addBtn" @click="changeFormStatus(false, null)">
-          Add new card
-        </button>
-      </div>
-    </nav>
-   <main class="main">
-     <card-form
-         v-if="showForm"
-         :selectedCardForEdit="selectedCardForEdit"
-         @data-emitted="handleDataEmitted"
-         @create-card="createNewCard"
-         @hide-form="hideForm"
-         @edit-card="editCard"
-     ></card-form>
-     <image-card v-for="(card, index) in cardData" :key="index"
-                 :first-name="card.firstName"
-                 :last-name="card.lastName"
-                 :image-src="card.image"
-                 :date="card.date"
-                 :background-color="card.color"
-                 :dateOfEdited="card.dateOfEdited"
-                 @show-confirmModal="showModal(index)"
-                 @show-editForm="changeFormStatus(true, index)"
-     ></image-card>
-     <confirm-modal
-         v-if="showConfirmModal"
-         @hide-modal="hideModal"
-         @delete-card="deleteCard"
-     >
+    <the-nav
+        @show-form="changeFormStatus(false, null)"
+    ></the-nav>
+    <main class="main">
+      <card-form
+          v-if="showForm"
+          :selectedCardForEdit="selectedCardForEdit"
+          @data-emitted="handleDataEmitted"
+          @create-card="createNewCard"
+          @hide-form="hideForm"
+          @edit-card="editCard"
+      ></card-form>
+      <image-card v-for="(card, index) in cardData" :key="index"
+                  :first-name="card.firstName"
+                  :last-name="card.lastName"
+                  :image-src="card.image"
+                  :date="card.date"
+                  :background-color="card.color"
+                  :dateOfEdited="card.dateOfEdited"
+                  @show-confirmModal="showModal(index)"
+                  @show-editForm="changeFormStatus(true, index)"
+      ></image-card>
+      <confirm-modal
+          v-if="showConfirmModal"
+          @hide-modal="hideModal"
+          @delete-card="deleteCard"
+      >
 
-     </confirm-modal>
-   </main>
-    <footer class="footer">
-      <div class="footer__logoWrapper">
-        <!--    <img src="" alt="" class="nav__logo">-->
-        <span class="nav__logo">logo</span>
-      </div>
-    </footer>
+      </confirm-modal>
+    </main>
+    <TheFooter/>
   </div>
 </template>
 
@@ -51,6 +39,9 @@
 import {defineAsyncComponent, ref, onMounted} from 'vue'
 import ImageCard from "@/components/ImageCard.vue";
 import ConfirmModal from "@/components/ConfirmModal.vue";
+import TheNav from "@/layout/TheNav.vue";
+import TheFooter from "@/layout/TheFooter.vue";
+
 const CardForm = defineAsyncComponent(() =>
     import('./components/CardForm.vue')
 )
@@ -73,7 +64,7 @@ function createNewCard(newCard) {
 const changeFormStatus = (clickedEditBtn, cardIndex) => {
   showForm.value = true;
   selectedCardIndex.value = cardIndex
-  if(clickedEditBtn) {
+  if (clickedEditBtn) {
     selectedCardForEdit.value = cardData.value[cardIndex]
   }
 };
@@ -100,7 +91,7 @@ function hideModal() {
 }
 
 function editCard(editedCard) {
-  cardData.value[selectedCardIndex.value] = { ...editedCard, date: cardData.value[selectedCardIndex.value].date }
+  cardData.value[selectedCardIndex.value] = {...editedCard, date: cardData.value[selectedCardIndex.value].date}
   localStorage.setItem('data', JSON.stringify(cardData.value))
   showForm.value = false
   selectedCardForEdit.value = undefined;
@@ -112,71 +103,10 @@ const hideForm = () => {
 }
 
 
-onMounted(()=> {
+onMounted(() => {
   cardData.value = JSON.parse(localStorage.getItem("data")) || [];
   // localStorage.clear()
 })
 </script>
 
-<style>
-* {
-  margin: 0;
-  padding: 0;
-}
-
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-}
-
-.container {
-  width: 100%;
-  min-height: 100vh;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.nav, .footer {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  background: #2c3e50;
-}
-
-.footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-}
-
-.nav__logo {
-  text-transform: uppercase;
-  font-weight: bolder;
-  color: #ffff;
-}
-
-.nav__addBtn {
-  padding: 5px;
-  border-radius: 5px;
-  background: none;
-  color: #ffff;
-  border: 1px solid #fff;
-  cursor: pointer;
-}
-
-.main {
-  padding: 15px;
-  display: flex;
-  gap: 36px;
-  flex-wrap: wrap;
-  width: 100%;
-  box-sizing: border-box;
-  justify-content: center;
-}
-
-</style>
+<style src="@/styles/main.scss" lang="scss"></style>

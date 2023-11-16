@@ -21,47 +21,4 @@ const props = defineProps(['firstName', 'lastName', 'imageSrc', 'date', 'dateOfE
 
 </script>
 
-<style scoped lang="scss">
-.imageCard {
-  display: flex;
-  flex-direction: column;
-  padding: 15px;
-  border: 1px solid #cccc;
-  border-radius: 5px;
-  box-sizing: border-box;
-
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 15px;
-  }
-
-  &__editBtn {
-    width: 70px;
-    padding: 8px;
-    background: #3a3b98;
-    color: #fff;
-    text-transform: uppercase;
-    border: navajowhite;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
-  &__imgPreview {
-    width: 100px;
-    height: 100px;
-    margin: 0 auto 15px;
-  }
-
-  &__selectedImg {
-    width: 100%;
-    height: 100%;
-    margin: 0 auto;
-    object-fit: contain;
-  }
-
-  &__deleteCard {
-    cursor: pointer;
-  }
-}
-</style>
+<style scoped lang="scss" src="@/styles/imageCard.scss"></style>

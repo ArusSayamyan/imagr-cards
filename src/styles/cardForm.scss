@@ -1,0 +1,88 @@
+.cardForm {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.77);
+
+  &__form {
+    max-width: 450px;
+    width: 100%;
+    padding: 29px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+    background: #FFFFFF;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__input {
+    padding: 10px 5px;
+    background: #e8e8fd;
+    border: unset;
+    border-radius: 5px;
+    outline: unset;
+    margin-bottom: 25px;
+  }
+
+  &__btns {
+    display: flex;
+    justify-content: space-between;
+    max-width: 150px;
+    width: 100%;
+    margin: 15px auto 0;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+  }
+
+  &__button {
+    width: 70px;
+    padding: 8px;
+    background: #3a3b98;
+    color: #fff;
+    text-transform: uppercase;
+    border: navajowhite;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &--disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+
+    }
+  }
+
+  &__close {
+    cursor: pointer;
+  }
+
+  &__uploadedImage {
+    max-width: 250px;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  &__preview {
+    margin: 15px auto;
+  }
+
+  &__imageLabel {
+    width: 150px;
+    padding: 5px;
+    background: #e8e8fd;
+  }
+
+}
