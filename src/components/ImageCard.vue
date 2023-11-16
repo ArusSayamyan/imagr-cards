@@ -1,7 +1,7 @@
 <template>
 <div class="imageCard">
   <div class="imageCard__header">
-    <button class="imageCard__editBtn">Edit</button>
+    <button class="imageCard__editBtn" @click="$emit('show-editForm')">Edit</button>
     <img class="imageCard__deleteCard" alt="deleteCard" src="@/assets/close.svg" @click="$emit('show-confirmModal')">
   </div>
   <div class="imageCard__imgPreview">
@@ -10,13 +10,14 @@
   <p>First name: {{ props.firstName }}</p>
   <p>Last name: {{ props.lastName }}</p>
   <p>Created at: {{ props.date }}</p>
+  <p>Updated at: {{ props.dateOfEdited }}</p>
 </div>
 </template>
 
 <script setup>
 import {defineProps} from "vue";
 
-const props = defineProps(['firstName', 'lastName', 'imageSrc', 'date'])
+const props = defineProps(['firstName', 'lastName', 'imageSrc', 'date', 'dateOfEdited'])
 // const emit = defineEmits(['show-confirmModal'])
 
 </script>

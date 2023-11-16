@@ -1,19 +1,19 @@
 <template>
-  <div class="cardForm" v-if="props.showForm">
+  <div class="cardForm">
     <form action="" class="cardForm__form" @submit.prevent="sendData">
       <div class="cardForm__header">
         <span class="cardForm__formTitle">Add new card</span>
         <img src="@/assets/close.svg" alt="" class="cardForm__close" @click="$emit('hide-form')">
       </div>
-
-      <input type="text" class="cardForm__input" placeholder="first name" v-model="firstName">
+      <input type="text" class="cardForm__input" placeholder="first name" v-model="firstName" >
       <input type="text" class="cardForm__input" placeholder="last name" v-model="lastName">
       <input type="file" id="img" name="img" accept="image/*" @change="handleFileChange">
       <div class="cardForm__preview" v-if="preview">
         <img :src="preview" alt="" class="cardForm__uploadedImage">
       </div>
       <div class="cardForm__btns">
-        <button class="cardForm__button" type="submit">Create</button>
+        <button class="cardForm__button" type="submit" v-if="addEditBtn">Edit</button>
+        <button class="cardForm__button" type="submit" v-else>Create</button>
         <button class="cardForm__button" type="button" @click="$emit('hide-form')">Cancel</button>
       </div>
     </form>
@@ -22,44 +22,46 @@
 
 
 <script setup>
-import {defineProps, ref, reactive, onMounted, defineEmits} from 'vue';
+import {defineProps, ref, onMounted, defineEmits} from 'vue';
 
-const props = defineProps(['showForm'])
-const emit = defineEmits(['data-emitted', 'hide-form'])
+const props = defineProps(['editCard', 'selectedCardForEdit'])
+const emit = defineEmits(['data-emitted', 'hide-form', 'create-card', 'edit-card'])
 
 const firstName = ref()
 const lastName = ref()
 const selectedImg = ref()
 const preview = ref()
-let cardData = reactive([])
+const addEditBtn = ref(false)
+
+let currentDate = new Date();
+
+let year = currentDate.getFullYear();
+let month = currentDate.getMonth() + 1;
+let day = currentDate.getDate();
+
+let currentHours = currentDate.getHours();
+let currentMinutes = currentDate.getMinutes();
+
+const fullDate = day + '.' + month + '.' + year + " " + currentHours + ":" + currentMinutes
+
 
 function sendData() {
-  let currentDate = new Date();
-
-  let year = currentDate.getFullYear();
-  let month = currentDate.getMonth() + 1; // Months are zero-based, so add 1
-  let day = currentDate.getDate();
-
-  let currentHours = currentDate.getHours();
-  let currentMinutes = currentDate.getMinutes();
-
-  const fullDate = day + '.' + month + '.' + year + " " + currentHours + ":" + currentMinutes
-  cardData = JSON.parse(localStorage.getItem('data')) || []
-  cardData.push({
-    firstName: firstName.value,
-    lastName: lastName.value,
-    image: preview.value,
-    date: fullDate
-  })
-
-  localStorage.setItem('data', JSON.stringify(cardData))
-
-  emit('data-emitted', JSON.parse(localStorage.getItem('data')))
-  emit('hide-form', false)
-
-  firstName.value = ''
-  lastName.value = ''
-  preview.value = ''
+  if(props.selectedCardForEdit === undefined) {
+    emit('create-card', ({
+      firstName: firstName.value,
+      lastName: lastName.value,
+      image: preview.value,
+      date: fullDate,
+      dateOfEdited: fullDate
+    }))
+  }else {
+    emit('edit-card', ({
+      firstName: firstName.value,
+      lastName: lastName.value,
+      image: preview.value,
+      dateOfEdited: fullDate
+    }))
+  }
 }
 
 function handleFileChange(event) {
@@ -77,9 +79,18 @@ function handleFileChange(event) {
   }
 }
 
+
+
+
+
 onMounted(() => {
-  if (localStorage.getItem('data')) {
-    cardData = JSON.parse(localStorage.getItem('data'))
+  // console.log(props, 777777777777777)
+  // console.log(props)
+  if(props.selectedCardForEdit !== undefined) {
+    addEditBtn.value = true;
+    firstName.value = props.selectedCardForEdit.firstName
+    lastName.value = props.selectedCardForEdit.lastName
+    preview.value = props.selectedCardForEdit.image
   }
 })
 </script>

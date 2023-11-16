@@ -1,5 +1,5 @@
 <template>
-<div class="confirmModal" v-if="props.showConfirmModal">
+<div class="confirmModal">
  <div class="confirmModal__content">
    <div class="confirmModal__close">
      <img src="@/assets/close.svg" alt="" class="confirmModal__closeIcon" @click="$emit('hide-modal')">
@@ -9,15 +9,14 @@
      Are you sure you want to delete this card?</p>
    <div class="confirmModal__buttons">
      <button class="confirmModal__deleteBtn" @click="$emit('delete-card')">Delete</button>
-     <button class="confirmModal__cancelBtn">Cancel</button>
+     <button class="confirmModal__cancelBtn" @click="$emit('hide-modal')">Cancel</button>
    </div>
  </div>
 </div>
 </template>
 
 <script setup>
-import {defineProps} from "vue";
-const props = defineProps(['showConfirmModal'])
+
 </script>
 
 
