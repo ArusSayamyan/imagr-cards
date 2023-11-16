@@ -74,7 +74,7 @@ function sendData() {
       firstName: firstName.value,
       lastName: lastName.value,
       image: preview.value,
-      dateOfEdited: fullDate
+      dateOfEdited: fullDate,
     }))
   }
 }

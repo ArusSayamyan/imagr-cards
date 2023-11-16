@@ -91,7 +91,11 @@ function hideModal() {
 }
 
 function editCard(editedCard) {
-  cardData.value[selectedCardIndex.value] = {...editedCard, date: cardData.value[selectedCardIndex.value].date}
+  console.log(editedCard)
+  cardData.value[selectedCardIndex.value] = {...editedCard,
+    date: cardData.value[selectedCardIndex.value].date,
+    color: cardData.value[selectedCardIndex.value].color,
+  }
   localStorage.setItem('data', JSON.stringify(cardData.value))
   showForm.value = false
   selectedCardForEdit.value = undefined;
