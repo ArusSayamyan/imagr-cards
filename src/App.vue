@@ -24,6 +24,7 @@
                  :last-name="card.lastName"
                  :image-src="card.image"
                  :date="card.date"
+                 :background-color="card.color"
                  :dateOfEdited="card.dateOfEdited"
                  @show-confirmModal="showModal(index)"
                  @show-editForm="changeFormStatus(true, index)"
@@ -113,6 +114,7 @@ const hideForm = () => {
 
 onMounted(()=> {
   cardData.value = JSON.parse(localStorage.getItem("data")) || [];
+  // localStorage.clear()
 })
 </script>
 
@@ -174,6 +176,7 @@ onMounted(()=> {
   flex-wrap: wrap;
   width: 100%;
   box-sizing: border-box;
+  justify-content: center;
 }
 
 </style>

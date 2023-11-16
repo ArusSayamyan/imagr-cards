@@ -1,5 +1,5 @@
 <template>
-<div class="imageCard">
+<div class="imageCard" :style="{ backgroundColor: props.backgroundColor }">
   <div class="imageCard__header">
     <button class="imageCard__editBtn" @click="$emit('show-editForm')">Edit</button>
     <img class="imageCard__deleteCard" alt="deleteCard" src="@/assets/close.svg" @click="$emit('show-confirmModal')">
@@ -17,7 +17,7 @@
 <script setup>
 import {defineProps} from "vue";
 
-const props = defineProps(['firstName', 'lastName', 'imageSrc', 'date', 'dateOfEdited'])
+const props = defineProps(['firstName', 'lastName', 'imageSrc', 'date', 'dateOfEdited', 'backgroundColor'])
 
 </script>
 
