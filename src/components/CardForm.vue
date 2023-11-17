@@ -1,4 +1,5 @@
 <template>
+  <Teleport to="body">
   <div class="cardForm">
     <form action="" class="cardForm__form" @submit.prevent="sendData">
       <div class="cardForm__header">
@@ -19,6 +20,7 @@
       </div>
     </form>
   </div>
+  </Teleport>
 </template>
 
 

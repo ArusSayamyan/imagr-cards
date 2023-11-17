@@ -40,4 +40,9 @@
   &__deleteCard {
     cursor: pointer;
   }
+
+  &__link {
+    text-decoration: none;
+    color: unset;
+  }
 }
