@@ -60,6 +60,7 @@ function generateRandomLightColor() {
   generatedColor.value = `rgb(${r}, ${g}, ${b})`;
 }
 
+
 function sendData() {
   generateRandomLightColor();
   if(props.selectedCardForEdit === undefined) {
@@ -69,7 +70,8 @@ function sendData() {
       image: preview.value,
       date: fullDate,
       dateOfEdited: fullDate,
-      color: generatedColor
+      color: generatedColor,
+      id: Date.now()
     }))
   }else {
     emit('edit-card', ({

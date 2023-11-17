@@ -19,6 +19,7 @@
 
 <script setup>
 import {defineEmits} from 'vue'
+
 const emit = defineEmits(['delete-card', 'hide-modal'])
 </script>
 

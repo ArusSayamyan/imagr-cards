@@ -1,6 +1,5 @@
 import {createRouter, createWebHistory} from 'vue-router'
 
-
 import HomePage from "./pages/HomePage.vue";
 import UserCard from "@/pages/UserCard.vue";
 import NotFound from "@/pages/NotFound.vue";
@@ -26,6 +25,5 @@ const router = createRouter({
         },
     ]
 })
-
 
 export default router;

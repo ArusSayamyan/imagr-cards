@@ -1,9 +1,11 @@
 <template>
-  <div>
-    <the-nav
-        @show-form="changeFormStatus(false, null)"
-    ></the-nav>
-    <main class="main">
+  <div class="main">
+    <div class="main__buttonWrapper">
+      <button class="main__addBtn" @click="changeFormStatus(false, null)">
+        Add new card
+      </button>
+    </div>
+    <main class="main__content">
       <card-form
           v-if="showForm"
           :selectedCardForEdit="selectedCardForEdit"
@@ -13,12 +15,7 @@
           @edit-card="editCard"
       ></card-form>
       <image-card v-for="(card, index) in cardData" :key="index"
-                  :first-name="card.firstName"
-                  :last-name="card.lastName"
-                  :image-src="card.image"
-                  :date="card.date"
-                  :background-color="card.color"
-                  :dateOfEdited="card.dateOfEdited"
+                  :cards="card"
                   :selectedCardIdx="index"
                   @show-confirmModal="showModal(index)"
                   @show-editForm="changeFormStatus(true, index)"
@@ -27,26 +24,22 @@
           v-if="showConfirmModal"
           @hide-modal="hideModal"
           @delete-card="deleteCard"
-      >
-
-      </confirm-modal>
+      />
     </main>
   </div>
 
 </template>
 
 <script setup>
+import {defineAsyncComponent, ref, onMounted} from 'vue'
 
 import ConfirmModal from "@/components/ConfirmModal.vue";
 import ImageCard from "@/components/ImageCard.vue";
 
-import {defineAsyncComponent, ref, onMounted} from 'vue'
-import TheNav from "@/layout/TheNav.vue";
-
-
 const CardForm = defineAsyncComponent(() =>
     import('../components/CardForm.vue')
 )
+
 const showForm = ref(false)
 const cardToDeleteIndex = ref(null)
 const showConfirmModal = ref(false)
@@ -93,7 +86,8 @@ function hideModal() {
 }
 
 function editCard(editedCard) {
-  cardData.value[selectedCardIndex.value] = {...editedCard,
+  cardData.value[selectedCardIndex.value] = {
+    ...editedCard,
     date: cardData.value[selectedCardIndex.value].date,
     color: cardData.value[selectedCardIndex.value].color,
   }
@@ -107,12 +101,37 @@ const hideForm = () => {
   selectedCardForEdit.value = undefined;
 }
 
+
 onMounted(() => {
   cardData.value = JSON.parse(localStorage.getItem("data")) || [];
   // localStorage.clear()
 })
+
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+.main {
+  &__content {
+    position: relative;
+    padding: 15px;
+    display: flex;
+    gap: 36px;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    justify-content: center;
+    margin-top: 50px;
+  }
+
+  &__addBtn {
+    position: absolute;
+    right: 15px;
+    padding: 5px;
+    border-radius: 5px;
+    background: #2c3e50;
+    color: #ffff;
+    border: 1px solid #fff;
+    cursor: pointer;
+  }
+}
 
 </style>

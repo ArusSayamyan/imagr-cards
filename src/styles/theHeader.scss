@@ -1,4 +1,4 @@
-.nav {
+.header {
   display: flex;
   justify-content: space-between;
   padding: 10px;
@@ -7,24 +7,12 @@
   width: 100%;
   top: 0;
   box-sizing: border-box;
+  z-index: 1;
 
   &__logo {
     text-transform: uppercase;
     font-weight: bolder;
     color: #ffff;
-  }
-
-  &__addBtn, &__clearBtn {
-    padding: 5px;
-    border-radius: 5px;
-    background: none;
-    color: #ffff;
-    border: 1px solid #fff;
-    cursor: pointer;
-  }
-
-  &__clearBtn {
-    margin-left: 10px;
   }
 
 }

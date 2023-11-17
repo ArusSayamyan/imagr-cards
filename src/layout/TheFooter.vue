@@ -6,10 +6,4 @@
   </footer>
 </template>
 
-<script setup>
-
-</script>
-
-<style scoped lang="scss" src="@/styles/theFooter.scss">
-
-</style>
+<style scoped lang="scss" src="@/styles/theFooter.scss"></style>
