@@ -1,9 +1,9 @@
 <template>
   <div class="imageCard" :style="{ backgroundColor: props.cards.color }">
+    <img class="imageCard__deleteCard" alt="deleteCard" src="@/assets/close.svg"
+         @click="$emit('show-confirmModal')">
     <div class="imageCard__header">
       <button class="imageCard__editBtn" @click="$emit('show-editForm')">Edit</button>
-      <img class="imageCard__deleteCard" alt="deleteCard" src="@/assets/close.svg"
-           @click="$emit('show-confirmModal')">
     </div>
     <router-link :to="'/card/' + props.cards.id" class="imageCard__link">
       <div class="imageCard__imgPreview">

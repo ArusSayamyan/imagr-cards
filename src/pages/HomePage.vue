@@ -14,11 +14,10 @@
           @hide-form="hideForm"
           @edit-card="editCard"
       ></card-form>
-      <image-card v-for="(card, index) in cardData" :key="index"
+      <image-card v-for="(card) in cardData" :key="card.id"
                   :cards="card"
-                  :selectedCardIdx="index"
-                  @show-confirmModal="showModal(index)"
-                  @show-editForm="changeFormStatus(true, index)"
+                  @show-confirmModal="showModal(card.id)"
+                  @show-editForm="changeFormStatus(true, card.id)"
       ></image-card>
       <confirm-modal
           v-if="showConfirmModal"
@@ -41,11 +40,11 @@ const CardForm = defineAsyncComponent(() =>
 )
 
 const showForm = ref(false)
-const cardToDeleteIndex = ref(null)
+const cardToDeleteId = ref(null)
 const showConfirmModal = ref(false)
 const cardData = ref([])
 const selectedCardForEdit = ref()
-const selectedCardIndex = ref()
+const selectedCardId = ref()
 
 function createNewCard(newCard) {
   cardData.value = JSON.parse(localStorage.getItem('data')) || []
@@ -56,29 +55,32 @@ function createNewCard(newCard) {
 }
 
 
-const changeFormStatus = (clickedEditBtn, cardIndex) => {
+const changeFormStatus = (clickedEditBtn, cardId) => {
   showForm.value = true;
-  selectedCardIndex.value = cardIndex
+  selectedCardId.value = cardId
+
   if (clickedEditBtn) {
-    selectedCardForEdit.value = cardData.value[cardIndex]
+    selectedCardForEdit.value = cardData.value.find(card => card.id === cardId)
   }
 };
 
 function deleteCard() {
-  cardData.value.splice(cardToDeleteIndex.value, 1);
+  const deletedCardIdx = cardData.value.findIndex(obj => obj.id === cardToDeleteId.value);
+  if (deletedCardIdx !== -1) {
+    cardData.value.splice(deletedCardIdx, 1);
+    localStorage.setItem('data', JSON.stringify(cardData.value));
+    showConfirmModal.value = false
+  }
 
-  localStorage.setItem('data', JSON.stringify(cardData.value));
-
-  showConfirmModal.value = false
 }
 
 function handleDataEmitted(emittedData) {
   cardData.value = emittedData
 }
 
-function showModal(index) {
+function showModal(id) {
   showConfirmModal.value = true
-  cardToDeleteIndex.value = index
+  cardToDeleteId.value = id
 }
 
 function hideModal() {
@@ -86,14 +88,17 @@ function hideModal() {
 }
 
 function editCard(editedCard) {
-  cardData.value[selectedCardIndex.value] = {
-    ...editedCard,
-    date: cardData.value[selectedCardIndex.value].date,
-    color: cardData.value[selectedCardIndex.value].color,
-  }
-  localStorage.setItem('data', JSON.stringify(cardData.value))
+  const updatedArray = cardData.value.map(obj => {
+    if (obj.id === selectedCardId.value) {
+      return {...obj, ...editedCard};
+    } else {
+      return obj;
+    }
+  });
+  localStorage.setItem('data', JSON.stringify(updatedArray))
   showForm.value = false
   selectedCardForEdit.value = undefined;
+  cardData.value = JSON.parse(localStorage.getItem("data")) || [];
 }
 
 const hideForm = () => {
@@ -104,7 +109,6 @@ const hideForm = () => {
 
 onMounted(() => {
   cardData.value = JSON.parse(localStorage.getItem("data")) || [];
-  // localStorage.clear()
 })
 
 </script>

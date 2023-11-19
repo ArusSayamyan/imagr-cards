@@ -2,9 +2,10 @@
   <Teleport to="body">
   <div class="cardForm">
     <form action="" class="cardForm__form" @submit.prevent="sendData">
+      <img src="@/assets/close.svg" alt="" class="cardForm__close" @click="$emit('hide-form')">
       <div class="cardForm__header">
-        <span class="cardForm__formTitle">Add new card</span>
-        <img src="@/assets/close.svg" alt="" class="cardForm__close" @click="$emit('hide-form')">
+        <span class="cardForm__formTitle"  v-if="addEditBtn">Edit card</span>
+        <span class="cardForm__formTitle" v-else>Add new card</span>
       </div>
       <input type="text" class="cardForm__input" placeholder="first name" v-model="firstName">
       <input type="text" class="cardForm__input" placeholder="last name" v-model="lastName">
