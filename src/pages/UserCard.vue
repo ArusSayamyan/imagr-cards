@@ -27,8 +27,7 @@ import {useRoute} from "vue-router";
 
 const route = useRoute()
 const getAllCards = JSON.parse(localStorage.getItem('data'))
-const selectedCard = getAllCards.find(obj => obj.id === route.params.id)
-console.log(selectedCard)
+const selectedCard = getAllCards.find(obj => obj.id === +route.params.id)
 
 </script>
 
